@@ -8,15 +8,6 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-server.use((req, res, next) => {
-  
-  res.header("Acess-Control-Allow-Original", "*");
-  
-  res.header("Acess-Control-Allow-Methods", 'GET,PUT,POST,DELETE');
-  next();
-});
-
-
 const orders = [];
 
 const checkClientID = (req, resp, next) => {
