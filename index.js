@@ -8,11 +8,27 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-server.use((res, next) => {
-  res.header("Acess-Control-Allow-Original", "http://localhost:3000");
+const allowedOrigins = [
+  'http://localhost',
+  'http://localhost:3000'
+];
 
-  res.header("Acess-Control-Allow-Methods", 'GET,PUT,POST,DELETE,OPTIONS');
-  next();
+// Reflect the origin if it's in the allowed list or not defined (cURL, Postman, etc.)
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Origin not allowed by CORS'));
+    }
+  },
+};
+
+// Enable preflight requests for all routes
+server.options('*', cors(corsOptions));
+
+server.get('/', cors(corsOptions), (req, res, next) => {
+  res.json({ message: 'This route is CORS-enabled for an allowed origin.' });
 });
 
 const orders = [];
