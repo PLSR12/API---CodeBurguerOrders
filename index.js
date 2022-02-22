@@ -8,7 +8,7 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-server.use((req, res, next) => {
+server.use((res, next) => {
   res.header("Acess-Control-Allow-Original", "http://localhost:3000");
 
   res.header("Acess-Control-Allow-Methods", 'GET,PUT,POST,DELETE,OPTIONS');
@@ -33,8 +33,8 @@ const checkClientID = (req, resp, next) => {
   next();
 };
 
-const method = (request, response, next) => {
-  console.log(request.method);
+const method = (req, resp, next) => {
+  console.log(req.method);
 
   next();
 };
