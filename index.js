@@ -9,7 +9,7 @@ server.use(express.json());
 server.use(cors());
 
 server.use((req, res, next) => {
-  res.header("Acess-Control-Allow-Original", "*");
+  res.header("Acess-Control-Allow-Original", "http://localhost:3000");
 
   res.header("Acess-Control-Allow-Methods", 'GET,PUT,POST,DELETE,OPTIONS');
   next();
