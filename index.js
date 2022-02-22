@@ -10,7 +10,7 @@ server.use(cors());
 
 server.use((req, res, next) => {
   
-  res.header("Acess-Control-Allow-Original", "https://front-end-react-orders.vercel.app/" , "https://front-end-react-orders.vercel.app/pedidos");
+  res.header("Acess-Control-Allow-Original", "*");
   
   res.header("Acess-Control-Allow-Methods", 'GET,PUT,POST,DELETE');
   next();
