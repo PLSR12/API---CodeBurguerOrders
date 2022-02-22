@@ -2,14 +2,14 @@ const express = require("express");
 const uuid = require("uuid");
 const cors = require("cors");
 
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 const server = express();
 server.use(express.json());
 server.use(cors());
 
 server.use((req, res, next) => {
-  res.header("Acess-Control-Allow-Original", "http://localhost:3000/pedidos");
+  res.header("Acess-Control-Allow-Original", "https://front-end-react-orders.vercel.app/" , "https://front-end-react-orders.vercel.app/pedidos");
 
   res.header("Acess-Control-Allow-Methods", 'GET,PUT,POST,DELETE');
   next();
