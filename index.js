@@ -8,27 +8,11 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-const allowedOrigins = [
-  'http://localhost',
-  'http://localhost:3000'
-];
+server.use((res, next) => {
+  res.header("Acess-Control-Allow-Original", "*");
 
-// Reflect the origin if it's in the allowed list or not defined (cURL, Postman, etc.)
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Origin not allowed by CORS'));
-    }
-  },
-};
-
-// Enable preflight requests for all routes
-server.options('*', cors(corsOptions));
-
-server.get('/', cors(corsOptions), (req, res, next) => {
-  res.json({ message: 'This route is CORS-enabled for an allowed origin.' });
+  res.header("Acess-Control-Allow-Methods", 'GET,POST,DELETE,OPTIONS');
+  next();
 });
 
 const orders = [];
@@ -108,7 +92,7 @@ server.get("/ordersSpecifies/:id", method, checkClientID, (req, resp) => {
   return resp.json(ordersSpecifies);
 });
 
-/*
+
 server.patch("/orders/:id", method, checkClientID, (req, resp) => {
   const index = req.clientIndex;
   const id = req.clientId;
@@ -120,7 +104,6 @@ server.patch("/orders/:id", method, checkClientID, (req, resp) => {
 
   return resp.json(updatedOrder);
 });
-*/
 
 server.listen(port, () => {
   console.log("Server Started 🚀");
