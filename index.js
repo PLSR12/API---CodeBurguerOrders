@@ -8,12 +8,14 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
+/*
 server.use((res, next) => {
   res.header("Acess-Control-Allow-Original", "*");
 
   res.header("Acess-Control-Allow-Methods", 'GET,POST,DELETE,OPTIONS');
   next();
 });
+*/
 
 const orders = [];
 
