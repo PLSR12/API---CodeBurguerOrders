@@ -6,16 +6,7 @@ const port = process.env.PORT || 3001;
 
 const server = express();
 server.use(express.json());
-server.use(cors());
-
-/*
-server.use((res, next) => {
-  res.header("Acess-Control-Allow-Original", "*");
-
-  res.header("Acess-Control-Allow-Methods", 'GET,POST,DELETE,OPTIONS');
-  next();
-});
-*/
+server.use(cors())
 
 const orders = [];
 
@@ -47,13 +38,15 @@ server.get("/orders", method, (req, resp) => {
 
 server.post("/orders", method, (req, resp) => {
   try{
-  const { order, nameClient, adressClient } = req.body;
+  const { order, nameClient, nameContact, adressClient, paymentForm } = req.body;
 
   const client = {
     id: uuid.v4(),
     nameClient,
+    nameContact,
     order,
-    adressClient
+    adressClient,
+    paymentForm
   };
 
   orders.push(client);
@@ -65,11 +58,11 @@ server.post("/orders", method, (req, resp) => {
 });
 
 server.put("/orders/:id", method, checkClientID, (req, resp) => {
-  const { nameClient, order, adressClient } = req.body;
+  const { nameClient, nameContact, order, adressClient,paymentForm } = req.body;
   const index = req.clientIndex;
   const id = req.clientId;
 
-  const updatedClient = { id, nameClient, order, adressClient};
+  const updatedClient = { id, nameClient,nameContact, order, adressClient,paymentForm};
 
   orders[index] = updatedClient;
 
@@ -94,18 +87,28 @@ server.get("/ordersSpecifies/:id", method, checkClientID, (req, resp) => {
   return resp.json(ordersSpecifies);
 });
 
-
+/*
 server.patch("/orders/:id", method, checkClientID, (req, resp) => {
   const index = req.clientIndex;
   const id = req.clientId;
-  const { order, nameClient, adressClient } = orders[index];
+  const { order, nameClient,nameContact, adressClient } = orders[index];
 
-  const updatedOrder = { id, order, nameClient, adressClient, status: "Pronto" };
+  const updatedOrder = { id, order, nameClient, nameContact, adressClient, paymentForm status: "Pronto" };
 
   orders[index] = updatedOrder;
 
   return resp.json(updatedOrder);
 });
+*/
+
+/*
+server.use((res, next) => {
+  res.header("Acess-Control-Allow-Original", "*");
+
+  res.header("Acess-Control-Allow-Methods", 'GET,POST,DELETE,OPTIONS');
+  next();
+});
+*/
 
 server.listen(port, () => {
   console.log("Server Started 🚀");
