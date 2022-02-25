@@ -38,12 +38,12 @@ server.get("/orders", method, (req, resp) => {
 
 server.post("/orders", method, (req, resp) => {
   try{
-  const { order, nameClient, nameContact, adressClient, paymentForm } = req.body;
+  const { order, nameClient, clientContact, adressClient, paymentForm } = req.body;
 
   const client = {
     id: uuid.v4(),
     nameClient,
-    nameContact,
+    clientContact,
     order,
     adressClient,
     paymentForm
@@ -58,11 +58,11 @@ server.post("/orders", method, (req, resp) => {
 });
 
 server.put("/orders/:id", method, checkClientID, (req, resp) => {
-  const { nameClient, nameContact, order, adressClient,paymentForm } = req.body;
+  const { nameClient, clientContact, order, adressClient,paymentForm } = req.body;
   const index = req.clientIndex;
   const id = req.clientId;
 
-  const updatedClient = { id, nameClient,nameContact, order, adressClient,paymentForm};
+  const updatedClient = { id, nameClient,clientContact, order, adressClient,paymentForm};
 
   orders[index] = updatedClient;
 
@@ -91,9 +91,9 @@ server.get("/ordersSpecifies/:id", method, checkClientID, (req, resp) => {
 server.patch("/orders/:id", method, checkClientID, (req, resp) => {
   const index = req.clientIndex;
   const id = req.clientId;
-  const { order, nameClient,nameContact, adressClient } = orders[index];
+  const { order, nameClient,clientContact, adressClient } = orders[index];
 
-  const updatedOrder = { id, order, nameClient, nameContact, adressClient, paymentForm status: "Pronto" };
+  const updatedOrder = { id, order, nameClient, clientContact, adressClient, paymentForm status: "Pronto" };
 
   orders[index] = updatedOrder;
 
