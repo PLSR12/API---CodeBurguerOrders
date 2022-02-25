@@ -6,7 +6,7 @@ const port = process.env.PORT || 3001;
 
 const server = express();
 server.use(express.json());
-server.use(cors());
+server.use(cors())
 
 const orders = [];
 
@@ -26,8 +26,8 @@ const checkClientID = (req, resp, next) => {
   next();
 };
 
-const method = (request, response, next) => {
-  console.log(request.method);
+const method = (req, resp, next) => {
+  console.log(req.method);
 
   next();
 };
@@ -38,13 +38,15 @@ server.get("/orders", method, (req, resp) => {
 
 server.post("/orders", method, (req, resp) => {
   try{
-  const { order, nameClient, adressClient } = req.body;
+  const { order, nameClient, clientContact, adressClient, paymentForm } = req.body;
 
   const client = {
     id: uuid.v4(),
     nameClient,
+    clientContact,
     order,
-    adressClient
+    adressClient,
+    paymentForm
   };
 
   orders.push(client);
@@ -56,11 +58,11 @@ server.post("/orders", method, (req, resp) => {
 });
 
 server.put("/orders/:id", method, checkClientID, (req, resp) => {
-  const { nameClient, order, adressClient } = req.body;
+  const { nameClient, clientContact, order, adressClient,paymentForm } = req.body;
   const index = req.clientIndex;
   const id = req.clientId;
 
-  const updatedClient = { id, nameClient, order, adressClient};
+  const updatedClient = { id, nameClient,clientContact, order, adressClient,paymentForm};
 
   orders[index] = updatedClient;
 
@@ -89,13 +91,22 @@ server.get("/ordersSpecifies/:id", method, checkClientID, (req, resp) => {
 server.patch("/orders/:id", method, checkClientID, (req, resp) => {
   const index = req.clientIndex;
   const id = req.clientId;
-  const { order, nameClient, adressClient } = orders[index];
+  const { order, nameClient,clientContact, adressClient } = orders[index];
 
-  const updatedOrder = { id, order, nameClient, adressClient, status: "Pronto" };
+  const updatedOrder = { id, order, nameClient, clientContact, adressClient, paymentForm status: "Pronto" };
 
   orders[index] = updatedOrder;
 
   return resp.json(updatedOrder);
+});
+*/
+
+/*
+server.use((res, next) => {
+  res.header("Acess-Control-Allow-Original", "*");
+
+  res.header("Acess-Control-Allow-Methods", 'GET,POST,DELETE,OPTIONS');
+  next();
 });
 */
 
